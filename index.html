@@ -5,11 +5,23 @@
 		<meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0' />
         <link href="base.css" rel="stylesheet" type="text/css">
         <script type="text/javascript" src="./jquery-2.0.3.min.js"></script>
+        <script type="text/javascript" src="Tween.js"></script>
         <script type="text/javascript" src="Sprite3D.js"></script>
         <script type="text/javascript" src="main.js"></script>
 		<title>CSS 3D battle</title>
 	</head>
 	<body>
         <div id="battle_container"></div>
+        <div>
+            <button id="button_pan_field">全体表示</button>
+            <button id="button_focus_player">自ユニット表示</button>
+            <button id="button_focus_enemy">敵ユニット表示</button>
+        </div>
+        <div>
+            <h4>モーション</h4>
+            <button id="button_motion_neutral_player">自ユニットニュートラル</button>
+            <button id="button_motion_attack_player">自ユニット攻撃</button>
+            <button id="button_motion_damage_player">自ユニットダメージ</button>
+        </div>
 	</body>
 </html>

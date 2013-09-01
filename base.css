@@ -12,7 +12,36 @@ body {
 }
 
 .ground {
-    background: url('images/ground.png');
-    width: 640px;
-    height: 640px;
+    background:url('images/ground2.jpg') repeat;
+    width: 1000px;
+    height: 1000px;
+}
+
+.ground_box .front
+{
+    background:url('images/ground4.jpg') repeat;
+    width: 1000px;
+    height: 1000px;
+}
+
+.ground_box .top,
+.ground_box .bottom,
+.ground_box .left,
+.ground_box .right
+{
+    background:url('images/ground4_shadow.jpg') repeat;
+    width: 1000px;
+    height: 1000px;
+}
+
+.player_unit {
+    background: -webkit-linear-gradient(top, #000, #fff);
+    width: 100px;
+    height: 100px;
+}
+
+.enemy_unit {
+    background-color: red;
+    width: 100px;
+    height: 100px;
 }
