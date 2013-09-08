@@ -124,7 +124,7 @@ $(function(){
     */
     function update_motion_step() {
         for(var i=0; i<update_motion_list.length; i++) {
-            update_motion_list[i];
+            var pattern = update_motion_list[i].nowPattern;
         }
     }
     

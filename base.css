@@ -1,4 +1,9 @@
-html, body { height: 100%; }
+html, body { 
+/*
+    height: 100%; 
+*/
+    width: 640px; 
+    text-align:center;}
 
 body {
     background-color: white;
@@ -17,15 +22,14 @@ body {
     height: 1000px;
 }
 
-.ground_box .front
+.ground_box .top
 {
     background:url('images/ground4.jpg') repeat;
     width: 1000px;
     height: 1000px;
 }
 
-.ground_box .top,
-.ground_box .bottom,
+.ground_box .front,
 .ground_box .left,
 .ground_box .right
 {
