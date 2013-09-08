@@ -1,8 +1,21 @@
-var GROUND_SIZE = 800;
+//地形サイズ
+var GROUND_SIZE = 1000;
+//地形高さ
 var GROUND_HEIGHT = 20;
+//キャラクターサイズ
 var CHARA_SIZE = 100;
 
+//パターンアニメする画像リスト
+var update_motion_list = new Array();
+//ビルボード対象のリスト
+var billboard_list = new Array();
+
+
+//初期化
 $(function(){
+    
+    var game_logic = new GameLogic();
+    
     var stage = Sprite3D.stage();
     var camera = stage.appendChild(
         Sprite3D.create().update()
@@ -13,59 +26,49 @@ $(function(){
             .update()
     );
     
-//    var ground = container.appendChild(
-//        Sprite3D.create('.ground')
-//            .origin(GROUND_SIZE / 2, GROUND_SIZE / 2)
-//            .transformOrigin(GROUND_SIZE / 2, GROUND_SIZE / 2)
-//            .move(0, 100, 0)
-//            .rotationX(90)
-//            .update()
-//    );
-    
     var ground = container.appendChild(
-        Sprite3D.box( GROUND_SIZE, GROUND_SIZE, 20, ".ground_box" )
+        Sprite3D.box( GROUND_SIZE, GROUND_HEIGHT, GROUND_SIZE, ".ground_box" )
 //        .origin(GROUND_SIZE / 2, GROUND_SIZE / 2, 10)
 //        .transformOrigin(GROUND_SIZE / 2, GROUND_SIZE / 2, 10)
         .y(100)
-        .rotationX(90)
+//        .rotationX(90)
         .update()
     );
     
     var player_unit = ground.appendChild(
         Sprite3D.create('.player_unit')
             .origin(CHARA_SIZE / 2, CHARA_SIZE / 2)
-            .transformOrigin(CHARA_SIZE / 2, CHARA_SIZE)
-//            .position((GROUND_SIZE / 2) - (CHARA_SIZE / 2), (GROUND_SIZE / 2) - CHARA_SIZE, 0)
-//            .move(GROUND_SIZE * -0.25, 0, 20)
-            .move(-280, 0, 20)
-            .rotation(270, 0, 0)
+            .transformOrigin(CHARA_SIZE / 2, CHARA_SIZE / 2)
+            .move(-180, (CHARA_SIZE / 2) * -1, 120)
             .update()
     );
 
     var enemy_unit = ground.appendChild(
         Sprite3D.create('.enemy_unit')
             .origin(CHARA_SIZE / 2, CHARA_SIZE / 2)
-            .transformOrigin(CHARA_SIZE / 2, CHARA_SIZE)
-//            .position((GROUND_SIZE / 2) - (CHARA_SIZE / 2), (GROUND_SIZE / 2) - CHARA_SIZE, 0)
-//            .move(GROUND_SIZE * 0.25, 0, 20)
-            .move(280, 0, 20)
-            .rotation(270, 0, 0)
+            .transformOrigin(CHARA_SIZE / 2, CHARA_SIZE / 2)
+            .move(180, (CHARA_SIZE / 2) * -1, 120)
             .update()
     );
     
+    update_motion_list.push(player_unit);
+    update_motion_list.push(enemy_unit);
+    billboard_list.push(player_unit);
+    billboard_list.push(enemy_unit);
+    
     function focus_player(){
-        console.log(player_unit.z());
-        focus_camera(player_unit.x(),
-                     player_unit.y(),
-                     250,
-                     25);
+        focus_unit(player_unit, -25);
     }
     
     function focus_enemy(){
-        focus_camera(enemy_unit.x(),
-                     enemy_unit.y(),
-                     250,
-                     -25);
+        focus_unit(enemy_unit, 25);
+    }
+    
+    function focus_unit(unit, angle){
+        focus_camera(unit.x() * -1,
+                     (unit.y() + ground.y()) * -1,  //視点の高さをユニットにあわせる
+                     unit.z() * 4,                  //４倍ズーム
+                     angle);
     }
     
     function pan_field(){
@@ -100,15 +103,15 @@ $(function(){
         tween.start();
     }
     
+    /**
+    * 常にカメラ側を向くようにする（ビルボード処理をかける）
+    */
     function billboard(rotx, roty, rotz){
-        //billboard
-        player_unit
-            .rotate(rotx * -1, roty * -1, rotz * -1)
-            .update();
-        
-        enemy_unit
-            .rotate(rotx * -1, roty * -1, rotz * -1)
-            .update();
+        for(var i=0; i<billboard_list.length; i++) {
+            billboard_list[i]
+                .rotate(rotx * -1, roty * -1, rotz * -1)
+                .update();
+        }
     }
     
     //buttons init
@@ -116,13 +119,26 @@ $(function(){
     $('#button_focus_player').click(focus_player);
     $('#button_focus_enemy').click(focus_enemy);
     
-    //update
-    setInterval( function() {
-//        container
-//            .rotate(0, 1, 0)
-//            .update();
-//        billboard(0, 1, 0);
+    /**
+    * ドット絵のアニメーションを進める
+    */
+    function update_motion_step() {
+        for(var i=0; i<update_motion_list.length; i++) {
+            update_motion_list[i];
+        }
+    }
+    
+    /**
+    * グラフィック更新処理
+    */
+    function update_draw() {
         TWEEN.update();
+        update_motion_step();
+    }
+    
+    setInterval( function() {
+        game_logic.doStep();
+        update_draw();
     }, 1000 / 30 );
     
 });
