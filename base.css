@@ -1,15 +1,24 @@
-html, body { 
-    text-align:center;}
+html, body { }
 
 body {
     background-color: white;
     margin: 0px;
     padding: 0px;
+}
+
+#battle_view {
+    margin: 0px;
+    padding: 0px;
     overflow: hidden;
 }
 
+#root {
+    width: 0px;
+    margin:0 auto;
+}
+
 .background {
-    height:800px;
+    height:300px;
     background:url('images/background.jpg');
     background-size:cover;
 }
@@ -17,8 +26,8 @@ body {
 .ground_box .top
 {
     background:url('images/ground5.png') repeat;
-    width: 800px;
-    height: 800px;
+    width: 600px;
+    height: 600px;
 }
 
 .ground_box .front,
@@ -26,7 +35,7 @@ body {
 .ground_box .right
 {
     background:url('images/ground5_shadow.png') repeat;
-    width: 800px;
+    width: 600px;
     height: 20px;
 }
 
@@ -42,8 +51,7 @@ body {
     height: 100px;
 }
 
-#command {
-    width:250px;
-    height:200px;
+#command_area {
     z-index:100;
+    background-color:#999;
 }

@@ -1,5 +1,5 @@
 //地形サイズ
-var GROUND_SIZE = 800;
+var GROUND_SIZE = 600;
 //地形高さ
 var GROUND_HEIGHT = 20;
 //キャラクターサイズ
@@ -16,17 +16,14 @@ $(function(){
     
     var game_logic = new GameLogic();
     
-    var stage = Sprite3D.stage();
+    var stage = Sprite3D.stage($('#root').get(0));
     var camera = stage.appendChild(
         Sprite3D.create().update()
     );
-    var background = camera.appendChild(
-        Sprite3D.create()
-    );
     var container = camera.appendChild(
         Sprite3D.create()
-            .move(0, -400, -1800)
-            .rotationX(-40)
+            .move(0, -200, -450)
+            .rotationX(-30)
             .update()
     );
     
@@ -55,16 +52,11 @@ $(function(){
             .update()
     );
     
-    var command_list = camera.appendChild(
-        Sprite3D.create($('#command').get(0))
-            .update()
-    );
-    
     update_motion_list.push(player_unit);
     update_motion_list.push(enemy_unit);
     billboard_list.push(player_unit);
     billboard_list.push(enemy_unit);
-    billboard(-40, 0, 0);
+    billboard(-30, 0, 0);
     
     function focus_player(){
         focus_unit(player_unit, -25);
@@ -75,9 +67,11 @@ $(function(){
     }
     
     function focus_unit(unit, roty){
+        console.log(unit.y());
         focus_camera(unit.x() * -1,
-                     (unit.y() + ground.y()) * -1,  //視点の高さをユニットにあわせる
-                     unit.z() * 4,                  //４倍ズーム
+//                     (unit.y() + ground.y()) * -1,  //視点の高さをユニットにあわせる
+                     unit.y() * -0.5,
+                     unit.z() * 3,
                      0,
                      roty,
                      0);
@@ -144,7 +138,8 @@ $(function(){
     */
     function update_motion_step() {
         for(var i=0; i<update_motion_list.length; i++) {
-            var pattern = update_motion_list[i].nowPattern;
+            var unit = update_motion_list[i];
+            var pattern = unit.nowPattern;
         }
     }
     

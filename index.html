@@ -2,7 +2,9 @@
 <html lang="ja">
 	<head>
 		<meta charset="utf-8" />
+<!--
 		<meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0' />
+-->
         <link href="base.css" rel="stylesheet" type="text/css">
         <script type="text/javascript" src="./jquery-2.0.3.min.js"></script>
         <script type="text/javascript" src="Tween.js"></script>
@@ -14,8 +16,9 @@
 	</head>
 	<body>
         <div id="wrapper">
-            <div class="background"></div>
-            <div id="battle_view"></div>
+            <div id="battle_view" class="background">
+                <div id="root"></div>
+            </div>
             <div id="command_area">
                 <div id="command">
                     <button id="button_pan_field">全体表示</button>
