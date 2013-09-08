@@ -38,19 +38,26 @@ $(function(){
     
     var player_unit = ground.appendChild(
         Sprite3D.create('.player_unit')
+            .tileSize(CHARA_SIZE,CHARA_SIZE)
+            .tilePosition(1,1)
             .origin(CHARA_SIZE / 2, CHARA_SIZE / 2)
             .transformOrigin(CHARA_SIZE / 2, CHARA_SIZE / 2)
             .move(-180, (CHARA_SIZE / 2) * -1, 120)
             .update()
     );
+    init_motion(player_unit);
 
     var enemy_unit = ground.appendChild(
         Sprite3D.create('.enemy_unit')
+            .tileSize(CHARA_SIZE,CHARA_SIZE)
+            .tilePosition(1,1)
             .origin(CHARA_SIZE / 2, CHARA_SIZE / 2)
             .transformOrigin(CHARA_SIZE / 2, CHARA_SIZE / 2)
             .move(180, (CHARA_SIZE / 2) * -1, 120)
+            .rotationY(180)
             .update()
     );
+    init_motion(enemy_unit);
     
     update_motion_list.push(player_unit);
     update_motion_list.push(enemy_unit);
@@ -128,10 +135,45 @@ $(function(){
         }
     }
     
-    //buttons init
-    $('#button_pan_field').click(pan_field);
-    $('#button_focus_player').click(focus_player);
-    $('#button_focus_enemy').click(focus_enemy);
+    //モーション系処理初期化
+    function init_motion(unit){
+        unit.now_motion = "neutral";
+        unit._motion_count = 0;
+        unit.change = function (next_motion) {
+            this.now_motion = next_motion;
+            this._motion_count = 0;
+        }
+        unit.step_motion = function () {
+            if(this.now_motion == "neutral"){
+                var t = this._motion_count % 20;
+                if(t==0 || t==19){
+                    this.tilePosition(1,1);
+                }else if(t==10){
+                    this.tilePosition(2,1);
+                }
+                if(this._motion_count >= 20) this._motion_count = 0;
+            }else if(this.now_motion == "attack"){
+                var t = this._motion_count % 60;
+                if(t < 20){
+                    this.tilePosition(1,2);
+                }else if(t < 40){
+                    this.tilePosition(2,2);
+                }else if(t < 60){
+                    this.tilePosition(3,2);
+                }
+                if(this._motion_count > 60) this._motion_count = 60;
+            }else{
+                var t = this._motion_count % 4;
+                if(t <= 1){
+                    this.tilePosition(1,3);
+                }else if(t <= 3){
+                    this.tilePosition(2,3);
+                }
+                if(this._motion_count > 60) this.change("neutral");
+            }
+            this._motion_count++;
+        }
+    }
     
     /**
     * ドット絵のアニメーションを進める
@@ -139,7 +181,7 @@ $(function(){
     function update_motion_step() {
         for(var i=0; i<update_motion_list.length; i++) {
             var unit = update_motion_list[i];
-            var pattern = unit.nowPattern;
+            unit.step_motion();
         }
     }
     
@@ -151,6 +193,22 @@ $(function(){
         update_motion_step();
     }
     
+    //buttons init
+    $('#button_pan_field').click(pan_field);
+    $('#button_focus_player').click(focus_player);
+    $('#button_focus_enemy').click(focus_enemy);
+    
+    $('#button_motion_neutral_player').click(function(){
+        player_unit.change("neutral");
+    });
+    $('#button_motion_attack_player').click(function(){
+        player_unit.change("attack");
+    });
+    $('#button_motion_damage_player').click(function(){
+        player_unit.change("damage");
+    });
+    
+    //起動直後のズーム演出
     pan_field(3000);
     
     setInterval( function() {

@@ -40,13 +40,13 @@ body {
 }
 
 .player_unit {
-    background: -webkit-linear-gradient(top, #000, #fff);
+    background:url('images/neko.png');
     width: 100px;
     height: 100px;
 }
 
 .enemy_unit {
-    background-color: red;
+    background:url('images/neko.png');
     width: 100px;
     height: 100px;
 }
