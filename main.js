@@ -147,29 +147,29 @@ $(function(){
             if(this.now_motion == "neutral"){
                 var t = this._motion_count % 20;
                 if(t==0 || t==19){
-                    this.tilePosition(1,1);
+                    this.tilePosition(0,0);
                 }else if(t==10){
-                    this.tilePosition(2,1);
+                    this.tilePosition(1,0);
                 }
                 if(this._motion_count >= 20) this._motion_count = 0;
             }else if(this.now_motion == "attack"){
                 var t = this._motion_count % 60;
                 if(t < 20){
-                    this.tilePosition(1,2);
+                    this.tilePosition(0,1);
                 }else if(t < 40){
-                    this.tilePosition(2,2);
+                    this.tilePosition(1,1);
                 }else if(t < 60){
-                    this.tilePosition(3,2);
+                    this.tilePosition(2,1);
                 }
-                if(this._motion_count > 60) this._motion_count = 60;
+                if(this._motion_count >= 59) this.change("neutral");
             }else{
                 var t = this._motion_count % 4;
                 if(t <= 1){
-                    this.tilePosition(1,3);
+                    this.tilePosition(0,2);
                 }else if(t <= 3){
-                    this.tilePosition(2,3);
+                    this.tilePosition(1,2);
                 }
-                if(this._motion_count > 60) this.change("neutral");
+                if(this._motion_count >= 60) this.change("neutral");
             }
             this._motion_count++;
         }
