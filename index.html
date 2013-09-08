@@ -13,17 +13,22 @@
 		<title>CSS 3D battle</title>
 	</head>
 	<body>
-        <div id="battle_container"></div>
-        <div>
-            <button id="button_pan_field">全体表示</button>
-            <button id="button_focus_player">自ユニット表示</button>
-            <button id="button_focus_enemy">敵ユニット表示</button>
-        </div>
-        <div>
-            <h4>モーション</h4>
-            <button id="button_motion_neutral_player">自ユニットニュートラル</button>
-            <button id="button_motion_attack_player">自ユニット攻撃</button>
-            <button id="button_motion_damage_player">自ユニットダメージ</button>
+        <div id="wrapper">
+            <div class="background"></div>
+            <div id="battle_view"></div>
+            <div id="command_area">
+                <div id="command">
+                    <button id="button_pan_field">全体表示</button>
+                    <button id="button_focus_player">自ユニット表示</button>
+                    <button id="button_focus_enemy">敵ユニット表示</button>
+                </div>
+                <div>
+                    <h4>モーション</h4>
+                    <button id="button_motion_neutral_player">自ユニットニュートラル</button>
+                    <button id="button_motion_attack_player">自ユニット攻撃</button>
+                    <button id="button_motion_damage_player">自ユニットダメージ</button>
+                </div>
+            </div>
         </div>
 	</body>
 </html>

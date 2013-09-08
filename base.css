@@ -1,8 +1,4 @@
 html, body { 
-/*
-    height: 100%; 
-*/
-    width: 640px; 
     text-align:center;}
 
 body {
@@ -12,30 +8,26 @@ body {
     overflow: hidden;
 }
 
-.battle_container {
-    
-}
-
-.ground {
-    background:url('images/ground2.jpg') repeat;
-    width: 1000px;
-    height: 1000px;
+.background {
+    height:800px;
+    background:url('images/background.jpg');
+    background-size:cover;
 }
 
 .ground_box .top
 {
-    background:url('images/ground4.jpg') repeat;
-    width: 1000px;
-    height: 1000px;
+    background:url('images/ground5.png') repeat;
+    width: 800px;
+    height: 800px;
 }
 
 .ground_box .front,
 .ground_box .left,
 .ground_box .right
 {
-    background:url('images/ground4_shadow.jpg') repeat;
-    width: 1000px;
-    height: 1000px;
+    background:url('images/ground5_shadow.png') repeat;
+    width: 800px;
+    height: 20px;
 }
 
 .player_unit {
@@ -48,4 +40,10 @@ body {
     background-color: red;
     width: 100px;
     height: 100px;
+}
+
+#command {
+    width:250px;
+    height:200px;
+    z-index:100;
 }

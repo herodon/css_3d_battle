@@ -1,5 +1,5 @@
 //地形サイズ
-var GROUND_SIZE = 1000;
+var GROUND_SIZE = 800;
 //地形高さ
 var GROUND_HEIGHT = 20;
 //キャラクターサイズ
@@ -20,9 +20,13 @@ $(function(){
     var camera = stage.appendChild(
         Sprite3D.create().update()
     );
+    var background = camera.appendChild(
+        Sprite3D.create()
+    );
     var container = camera.appendChild(
-        Sprite3D.create('.battle_container')
-            .move(0, 100, -200)
+        Sprite3D.create()
+            .move(0, -400, -1800)
+            .rotationX(-40)
             .update()
     );
     
@@ -51,10 +55,16 @@ $(function(){
             .update()
     );
     
+    var command_list = camera.appendChild(
+        Sprite3D.create($('#command').get(0))
+            .update()
+    );
+    
     update_motion_list.push(player_unit);
     update_motion_list.push(enemy_unit);
     billboard_list.push(player_unit);
     billboard_list.push(enemy_unit);
+    billboard(-40, 0, 0);
     
     function focus_player(){
         focus_unit(player_unit, -25);
@@ -64,40 +74,50 @@ $(function(){
         focus_unit(enemy_unit, 25);
     }
     
-    function focus_unit(unit, angle){
+    function focus_unit(unit, roty){
         focus_camera(unit.x() * -1,
                      (unit.y() + ground.y()) * -1,  //視点の高さをユニットにあわせる
                      unit.z() * 4,                  //４倍ズーム
-                     angle);
+                     0,
+                     roty,
+                     0);
     }
     
-    function pan_field(){
-        focus_camera(0, 100, -200, 0);
+    function pan_field(msec){
+        focus_camera(0, 100, -200, 0, 0, 0, msec);
     }
     
-    function focus_camera(posx, posy, posz, angle){
+    function focus_camera(posx, posy, posz, rotx, roty, rotz, msec){
+        if(!Number.isFinite(msec)) msec = 500;
+        
         var tween = new TWEEN.Tween( { 
                 x: container.x(),
                 y: container.y(),
                 z: container.z(),
-                rotY: container.rotationY()
+                rotX: container.rotationX(),
+                rotY: container.rotationY(),
+                rotZ: container.rotationZ()
             } )
             .to( { 
                 x: posx,
                 y: posy,
                 z: posz,
-                rotY: angle
-            }, 500 )
+                rotX: rotx,
+                rotY: roty,
+                rotZ: rotz
+            }, msec )
             .easing( TWEEN.Easing.Cubic.InOut )
             .onUpdate( function () {
-                var rot = this.rotY - container.rotationY();
+                var diff_rotx = this.rotX - container.rotationX();
+                var diff_roty = this.rotY - container.rotationY();
+                var diff_rotz = this.rotZ - container.rotationZ();
                 
                 container
                     .position(this.x, this.y, this.z)
-                    .rotate(0, rot, 0)
+                    .rotate(diff_rotx, diff_roty, diff_rotz)
                     .update();
                 
-                billboard(0, rot, 0);
+                billboard(diff_rotx, diff_roty, diff_rotz);
             });
         
         tween.start();
@@ -135,6 +155,8 @@ $(function(){
         TWEEN.update();
         update_motion_step();
     }
+    
+    pan_field(3000);
     
     setInterval( function() {
         game_logic.doStep();
